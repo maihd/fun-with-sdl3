@@ -7,6 +7,7 @@ cmake .. -GNinja
 
 cmake --build .
 
+if [ $? -eq 0 ]; then
 echo
 echo ==================================================================================================
 echo "|> Running...."
@@ -14,3 +15,6 @@ echo ===========================================================================
 ./FunWithSDL3
 
 cd ..
+else
+echo Build failed. Please check build errors above!
+fi
