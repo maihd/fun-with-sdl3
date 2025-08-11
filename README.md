@@ -3,7 +3,7 @@
 ## Targets
 - Learning SDL3
 - Learning CMake, Ninja for building C projects
-- More C practices (Newest C23)
+- More C practices (Newest C23), some features from C++ use required, explore Mai C Style: https://github.com/maihd/maicstyle
 - Make profit: integrate to Mai Lite Editor
 
 ## Modules, APIs need to explore
