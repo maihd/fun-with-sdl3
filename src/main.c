@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -13,6 +14,13 @@ static SDL_Renderer* renderer;
 // static SDL_Texture* fontTexture;
 
 // static TTF_TextEngine* textEngine;
+
+static double fps;
+static double lastTime;
+static double deltaTime;
+
+static double fpsTimer      = 0.0;
+static double fpsInvertal   = 0.1;
 
 SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
@@ -49,7 +57,26 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
-    SDL_Log("SDL renderer driver = %s", SDL_GetRendererName(renderer));
+    const char* driverName = SDL_GetRendererName(renderer);
+    SDL_Log("SDL renderer driver = %s", driverName);
+
+    const char* vsyncTitle;
+    if (SDL_SetRenderVSync(renderer, 1))
+    {
+        vsyncTitle = "VSync Enabled";
+    }
+    else 
+    {
+        vsyncTitle = "VSync Disabled";
+    }
+    
+    char* windowTitle;
+    SDL_asprintf(&windowTitle, "FunWithSDL3 - SDL 2D Driver = %s - %s", driverName, vsyncTitle);
+    SDL_SetWindowTitle(window, windowTitle);
+    SDL_free(windowTitle);
+
+    lastTime = (double)SDL_GetTicksNS() / 1000000000.0;
+    deltaTime = 0.0f;
 
     // if (!TTF_Init())
     // {
@@ -89,13 +116,30 @@ SDL_AppResult SDL_AppEvent(void* appState, SDL_Event* event)
 
 SDL_AppResult SDL_AppIterate(void* appState)
 {
-    SDL_SetRenderDrawColor(renderer, 65, 23, 100, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderDebugText(renderer, 272, 100, "Hello world!");
+    // SDL_RenderDebugText(renderer, 272, 100, "Hello world!");
+
+    char* fpsText; SDL_asprintf(&fpsText, "FPS: %.1lf", fps);
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDebugText(renderer, 10, 10, fpsText);
+    SDL_free(fpsText);
 
     SDL_RenderPresent(renderer);
+
+    double time = ((double)SDL_GetTicksNS() / 1000000000.0);
+    deltaTime = time - lastTime;
+    lastTime = time;
+
+    fpsTimer += deltaTime;
+    if (fpsTimer >= fpsInvertal)
+    {
+        fpsTimer -= fpsInvertal;
+        fps = 1.0 / deltaTime;
+    }
 
     return SDL_APP_CONTINUE;
 }
