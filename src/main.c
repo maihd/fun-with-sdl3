@@ -4,15 +4,15 @@
 #define SDL_MAIN_USE_CALLBACKS
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
-#include "SDL3_ttf/SDL_ttf.h"
+// #include "SDL3_ttf/SDL_ttf.h"
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 
-static TTF_Font* font;
-static SDL_Texture* fontTexture;
+// static TTF_Font* font;
+// static SDL_Texture* fontTexture;
 
-static TTF_TextEngine* textEngine;
+// static TTF_TextEngine* textEngine;
 
 SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
@@ -51,18 +51,18 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 
     SDL_Log("SDL renderer driver = %s", SDL_GetRendererName(renderer));
 
-    if (!TTF_Init())
-    {
-        SDL_Log("SDL_ttf could not initialize! SDL_ttf error: %s\n", SDL_GetError());
-        return SDL_APP_FAILURE;
-    }
+    // if (!TTF_Init())
+    // {
+    //     SDL_Log("SDL_ttf could not initialize! SDL_ttf error: %s\n", SDL_GetError());
+    //     return SDL_APP_FAILURE;
+    // }
 
-    textEngine = TTF_CreateRendererTextEngine(renderer);
-    if (!textEngine)
-    {
-        SDL_Log("TTF_CreateRendererTextEngine() error: %s\n", SDL_GetError());
-        return SDL_APP_FAILURE;
-    }
+    // textEngine = TTF_CreateRendererTextEngine(renderer);
+    // if (!textEngine)
+    // {
+    //     SDL_Log("TTF_CreateRendererTextEngine() error: %s\n", SDL_GetError());
+    //     return SDL_APP_FAILURE;
+    // }
 
     return SDL_APP_CONTINUE;
 }
