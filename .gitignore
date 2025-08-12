@@ -3,4 +3,5 @@
 .DS_Store
 
 build
+build_ios
 build_win32

@@ -19,14 +19,17 @@
     - Use "gpu" driver name, do not use default when you need SDL_GPU backend
     - Other render driver does not support low power device
 
-## Tasks
+## Tasks Done
 - Full GPU diagnostics
 - VSync
 - FPS
 
 ## Todos
+- Deep divide into VSync: Adaptive VSync
 - Shape rendering
 - Text rendering
 - Image rendering
 - Simple framework
 - Hot reloading
+- Android
+- iOS: build succeed, but no Info.plist to install on the phone
