@@ -122,6 +122,15 @@ SDL_AppResult SDL_AppIterate(void* appState)
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     // SDL_RenderDebugText(renderer, 272, 100, "Hello world!");
 
+    // Render a simple outlined rect
+    SDL_FRect rect = { 272, 100, 100, 100 };
+    SDL_RenderRect(renderer, &rect);
+
+    // Render a simple filled rect
+    SDL_FRect rect2 = { 272, 300, 100, 100 };
+    SDL_RenderFillRect(renderer, &rect2);
+
+    // Render FPS text
     char* fpsText; SDL_asprintf(&fpsText, "FPS: %.1lf", fps);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -130,6 +139,7 @@ SDL_AppResult SDL_AppIterate(void* appState)
 
     SDL_RenderPresent(renderer);
 
+    // Calculate fps
     double time = ((double)SDL_GetTicksNS() / 1000000000.0);
     deltaTime = time - lastTime;
     lastTime = time;

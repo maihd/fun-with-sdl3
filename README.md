@@ -25,3 +25,8 @@
 - FPS
 
 ## Todos
+- Shape rendering
+- Text rendering
+- Image rendering
+- Simple framework
+- Hot reloading
