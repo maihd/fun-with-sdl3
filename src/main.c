@@ -58,6 +58,11 @@ SDL_AppResult SDL_AppEvent(void* appState, SDL_Event* event)
 
 SDL_AppResult SDL_AppIterate(void* appState)
 {
+    SDL_SetRenderDrawColor(renderer, 65, 23, 100, 255);
+    SDL_RenderClear(renderer);
+
+    SDL_RenderPresent(renderer);
+
     return SDL_APP_CONTINUE;
 }
 
