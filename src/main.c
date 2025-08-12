@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 #define SDL_MAIN_USE_CALLBACKS
 #include "SDL3/SDL.h"
@@ -11,6 +12,7 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
     SDL_Log("Fun with SDL3");
 
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
     SDL_SetHint(SDL_HINT_RENDER_GPU_LOW_POWER, "1");
 
     if (!SDL_Init(SDL_INIT_VIDEO))
@@ -25,6 +27,9 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         SDL_Log("SDL_CreateWindow() failed: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+    
+    bool lowpower = SDL_GetHintBoolean(SDL_HINT_RENDER_GPU_LOW_POWER, lowpower);
+    SDL_Log("lowpower: %s\n", lowpower ? "true" : "false");
 
     renderer = SDL_CreateRenderer(window, NULL);
     if (!renderer)
