@@ -12,13 +12,15 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
     SDL_Log("Fun with SDL3");
 
-    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "gpu");
-    SDL_SetHint(SDL_HINT_RENDER_GPU_LOW_POWER, "1");
-
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
         SDL_Log("SDL_Init() failed: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
+    }
+
+    for (int i = 0, n = SDL_GetNumRenderDrivers(); i < n; i++)
+    {
+        SDL_Log("Driver%d: %s", i, SDL_GetRenderDriver(i));
     }
 
     window = SDL_CreateWindow("Fun With SDL3", 800, 600, SDL_WINDOW_RESIZABLE);
@@ -31,12 +33,17 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
     // bool lowpower = SDL_GetHintBoolean(SDL_HINT_RENDER_GPU_LOW_POWER, lowpower);
     // SDL_Log("lowpower: %s\n", lowpower ? "true" : "false");
 
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "gpu");
+    SDL_SetHint(SDL_HINT_RENDER_GPU_LOW_POWER, "1");
+
     renderer = SDL_CreateRenderer(window, NULL);
     if (!renderer)
     {
         SDL_Log("SDL_CreateWindow() failed: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+
+    SDL_Log("SDL renderer driver = %s", SDL_GetRendererName(renderer));
 
     return SDL_APP_CONTINUE;
 }
