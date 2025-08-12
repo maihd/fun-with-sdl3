@@ -2,7 +2,7 @@
 
 ## Targets
 - Learning SDL3
-- Learning CMake, Ninja for building C projects
+- Learning CMake, Ninja for building C projects in manner of cross-platforms
 - More C practices, some features from C++ use required, explore Mai C Style: https://github.com/maihd/maicstyle
 - Make profit: integrate to Mai Lite Editor
 
@@ -33,3 +33,4 @@
 - Hot reloading
 - Android
 - iOS: build succeed, but no Info.plist to install on the phone
+- Wasm
