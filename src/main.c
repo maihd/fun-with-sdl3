@@ -43,9 +43,6 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         SDL_Log("SDL_CreateWindow() failed: %s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-    
-    // bool lowpower = SDL_GetHintBoolean(SDL_HINT_RENDER_GPU_LOW_POWER, lowpower);
-    // SDL_Log("lowpower: %s\n", lowpower ? "true" : "false");
 
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "gpu");
     SDL_SetHint(SDL_HINT_RENDER_GPU_LOW_POWER, "1");
@@ -61,13 +58,17 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
     SDL_Log("SDL renderer driver = %s", driverName);
 
     const char* vsyncTitle;
-    if (SDL_SetRenderVSync(renderer, 1))
+    if (SDL_SetRenderVSync(renderer, SDL_RENDERER_VSYNC_ADAPTIVE))
     {
-        vsyncTitle = "VSync Enabled";
+        vsyncTitle = "VSync Adaptive";
+    }
+    else if (SDL_SetRenderVSync(renderer, 1))
+    {
+        vsyncTitle = "VSync On";
     }
     else 
     {
-        vsyncTitle = "VSync Disabled";
+        vsyncTitle = "VSync Off";
     }
     
     char* windowTitle;

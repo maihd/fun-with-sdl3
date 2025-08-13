@@ -18,6 +18,9 @@
 - Renderer 2D: 
     - Use "gpu" driver name, do not use default when you need SDL_GPU backend
     - Other render driver does not support low power device
+- VSync:
+    - VSync works on all platforms
+    - Only Vulkan support Adaptive VSync
 
 ## Tasks Done
 - Full GPU diagnostics
@@ -25,7 +28,6 @@
 - FPS
 
 ## Todos
-- Deep divide into VSync: Adaptive VSync
 - Shape rendering
 - Text rendering
 - Image rendering
