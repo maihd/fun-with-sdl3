@@ -32,9 +32,14 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
+    for (int i = 0, n = SDL_GetNumVideoDrivers(); i < n; i++)
+    {
+        SDL_Log("Video Driver%d: %s", i, SDL_GetVideoDriver(i));
+    }
+
     for (int i = 0, n = SDL_GetNumRenderDrivers(); i < n; i++)
     {
-        SDL_Log("Driver%d: %s", i, SDL_GetRenderDriver(i));
+        SDL_Log("Render Driver%d: %s", i, SDL_GetRenderDriver(i));
     }
 
     // SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");

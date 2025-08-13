@@ -23,10 +23,10 @@
     - Only Vulkan support Adaptive VSync
 
 ## Tasks Done
-- Full GPU diagnostics
+- Full GPU diagnostics: Video Drivers, Renderer Drivers, VSync status
 - VSync
 - FPS
-- Platforms: Windows, MacOS, Linux (X11)
+- Platforms: Windows, MacOS, Linux (X11, Wayland but doesnot tested)
 
 ## Todos
 - Cmake with Clang
