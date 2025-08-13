@@ -26,8 +26,10 @@
 - Full GPU diagnostics
 - VSync
 - FPS
+- Platforms: Windows, MacOS, Linux (X11)
 
 ## Todos
+- Cmake with Clang
 - Shape rendering
 - Text rendering
 - Image rendering

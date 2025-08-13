@@ -12,6 +12,8 @@ set(BUILD_SHARED_LIBS OFF)
 set(SDL_SHARED  OFF)
 set(SDL_STATIC  ON)
 
+set(SDL_WAYLAND ON)
+
 include(FetchContent)
 
 FetchContent_Declare(

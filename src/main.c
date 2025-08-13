@@ -37,6 +37,7 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         SDL_Log("Driver%d: %s", i, SDL_GetRenderDriver(i));
     }
 
+    // SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
     window = SDL_CreateWindow("Fun With SDL3", 800, 600, SDL_WINDOW_RESIZABLE);
     if (!window)
     {
@@ -54,8 +55,8 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
-    const char* driverName = SDL_GetRendererName(renderer);
-    SDL_Log("SDL renderer driver = %s", driverName);
+    const char* rendererDriverName = SDL_GetRendererName(renderer);
+    SDL_Log("SDL renderer driver = %s", rendererDriverName);
 
     const char* vsyncTitle;
     if (SDL_SetRenderVSync(renderer, SDL_RENDERER_VSYNC_ADAPTIVE))
@@ -71,8 +72,9 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         vsyncTitle = "VSync Off";
     }
     
+    const char* videoDriverName = SDL_GetCurrentVideoDriver();
     char* windowTitle;
-    SDL_asprintf(&windowTitle, "FunWithSDL3 - SDL 2D Driver = %s - %s", driverName, vsyncTitle);
+    SDL_asprintf(&windowTitle, "FunWithSDL3 - Video Driver = %s - 2D Driver = %s - %s", videoDriverName, rendererDriverName, vsyncTitle);
     SDL_SetWindowTitle(window, windowTitle);
     SDL_free(windowTitle);
 
