@@ -8,3 +8,6 @@ build_mac
 build_wasm
 build_win32
 build_linux
+
+libs
+build_libs

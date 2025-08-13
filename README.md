@@ -34,13 +34,14 @@
     - Web (WebAssembly with Emscripten)
     - iOS (only bundle with Info.plist, no platform specified platform source code needed)
 - Shape rendering: Rect, Polygon, Circle (use polygon)
-
-## Todos
 - Scripts for independant from Cmake building progress:
     - Build SDL3 and modules (required once time only)
     - Use scripts and clang to build executable
     - Why? because im stucking on build SDL_ttf and SDL_image with Cmake/FetchContent
     - It will help hot reload faster and easier
+    - They called its vendoring build
+
+## Todos
 - Cmake with Clang
 - Text rendering
 - Image rendering
@@ -50,3 +51,6 @@
 - Android
 - iOS: build succeed, but no Info.plist to install on the phone
 - Advanced: Vietnamese typing
+
+## Notes on versions
+Because SDL3 is still new, and I am still learning to use its. So I decised to use latest version from main branch, fetch very latest commit from the repos. This approach is like using nightly build from other modern techs.

@@ -18,15 +18,29 @@ set(SDL_STATIC  ON)
 
 set(SDL_WAYLAND ON)
 
-include(FetchContent)
+# set the output directory for built objects.
+# This makes sure that the dynamic library goes into the build directory automatically.
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
-FetchContent_Declare(
-    SDL3
-    GIT_REPOSITORY  "https://github.com/libsdl-org/SDL.git"
-    GIT_TAG         96292a5b464258a2b926e0a3d72f8b98c2a81aa6 # release-3.2.20
-    EXCLUDE_FROM_ALL
-)
-FetchContent_MakeAvailable(SDL3)
+# Use vendored libs
+set(SDLTTF_VENDORED ON)
+
+# This assumes the SDL source is available in vendored/SDL
+add_subdirectory(libs/SDL3 EXCLUDE_FROM_ALL)
+
+# This assumes the SDL_ttf source is available in vendored/SDL_ttf
+add_subdirectory(libs/SDL3_ttf EXCLUDE_FROM_ALL)
+
+# include(FetchContent)
+
+# FetchContent_Declare(
+#     SDL3
+#     GIT_REPOSITORY  "https://github.com/libsdl-org/SDL.git"
+#     GIT_TAG         96292a5b464258a2b926e0a3d72f8b98c2a81aa6 # release-3.2.20
+#     EXCLUDE_FROM_ALL
+# )
+# FetchContent_MakeAvailable(SDL3)
 
 # FetchContent_Declare(
 #     SDL3_ttf
@@ -42,7 +56,7 @@ FetchContent_MakeAvailable(SDL3)
 # find_package(SDL3 REQUIRED)
 
 add_executable(FunWithSDL3 src/main.c)
-target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static)
+target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf)
 
 if (IOS)
     message("Building with Emscripten!")
