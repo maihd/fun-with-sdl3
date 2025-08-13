@@ -43,7 +43,7 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
     }
 
     // SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
-    window = SDL_CreateWindow("Fun With SDL3", 800, 600, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("Fun With SDL3", 960, 600, SDL_WINDOW_RESIZABLE);
     if (!window)
     {
         SDL_Log("SDL_CreateWindow() failed: %s\n", SDL_GetError());
@@ -141,6 +141,42 @@ SDL_AppResult SDL_AppIterate(void* appState)
     // Render a simple filled rect
     SDL_FRect rect2 = { (float)(sin(time) * 272), 300, 100, 100 };
     SDL_RenderFillRect(renderer, &rect2);
+
+    // Render a simple circle with 30 segements (vertices = segments + 1) (indices = vertices * 3)
+    float radius = 30;
+    static SDL_Vertex vertices[31];
+    int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
+    for (int i = 1, n = vertexCount; i < n; i++)
+    {
+        float angle = (SDL_PI_F * 2.0f / n) * i;
+        float x = SDL_cos(angle) * radius;
+        float y = SDL_sin(angle) * radius;
+        vertices[i] = (SDL_Vertex){
+            .position = { .x = 480 + x, .y = 300 + y },
+            .color = { 255, 255, 255, 255 }
+        };
+    }
+    vertices[0] = (SDL_Vertex){
+        .position = { .x = 480, .y = 300 },
+        .color = { 255, 255, 255, 255 }
+    };
+
+    static int indices[93];
+    for (int i = 2, j = 0, n = vertexCount; i < n; i++, j++)
+    {
+        indices[(j * 3) + 0] = 0;
+        indices[(j * 3) + 1] = i - 1;
+        indices[(j * 3) + 2] = i;
+    }
+    indices[90] = 0;
+    indices[91] = 30;
+    indices[92] = 1;
+
+    if (!SDL_RenderGeometry(renderer, NULL, vertices, vertexCount, indices, 93))
+    {
+        SDL_Log("SDL_RenderGeometry() failed: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
     // Render FPS text
     char* fpsText; SDL_asprintf(&fpsText, "FPS: %.1lf", fps);

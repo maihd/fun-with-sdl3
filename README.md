@@ -27,10 +27,10 @@
 - VSync
 - FPS
 - Platforms: Windows, MacOS, Linux (X11, Wayland but doesnot tested), Web (WebAssembly with Emscripten)
+- Shape rendering: Rect, Polygon, Circle (use polygon)
 
 ## Todos
 - Cmake with Clang
-- Shape rendering
 - Text rendering
 - Image rendering
 - Simple framework
