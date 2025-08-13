@@ -5,15 +5,15 @@
 #define SDL_MAIN_USE_CALLBACKS
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
-// #include "SDL3_ttf/SDL_ttf.h"
+#include "SDL3_ttf/SDL_ttf.h"
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 
-// static TTF_Font* font;
-// static SDL_Texture* fontTexture;
+static TTF_Font* font;
+static SDL_Texture* fontTexture;
 
-// static TTF_TextEngine* textEngine;
+static TTF_TextEngine* textEngine;
 
 static double fps;
 static double lastTime;
@@ -88,18 +88,25 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
     lastTime = (double)SDL_GetTicksNS() / 1000000000.0;
     deltaTime = 0.0f;
 
-    // if (!TTF_Init())
-    // {
-    //     SDL_Log("SDL_ttf could not initialize! SDL_ttf error: %s\n", SDL_GetError());
-    //     return SDL_APP_FAILURE;
-    // }
+    if (!TTF_Init())
+    {
+        SDL_Log("SDL_ttf could not initialize! SDL_ttf error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
-    // textEngine = TTF_CreateRendererTextEngine(renderer);
-    // if (!textEngine)
-    // {
-    //     SDL_Log("TTF_CreateRendererTextEngine() error: %s\n", SDL_GetError());
-    //     return SDL_APP_FAILURE;
-    // }
+    textEngine = TTF_CreateRendererTextEngine(renderer);
+    if (!textEngine)
+    {
+        SDL_Log("TTF_CreateRendererTextEngine() error: %s\n", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    font = TTF_OpenFont("../assets/ZeitungMonoProNerdFont-Regular.ttf", 16);
+    if (!font)
+    {
+        SDL_Log("TTF_OpenFont() failed: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
 
     return SDL_APP_CONTINUE;
 }
@@ -107,6 +114,9 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 
 void SDL_AppQuit(void* appState, SDL_AppResult appResult)
 {
+    TTF_DestroyRendererTextEngine(textEngine);
+    TTF_Quit();
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
@@ -174,7 +184,7 @@ SDL_AppResult SDL_AppIterate(void* appState)
 
     if (!SDL_RenderGeometry(renderer, NULL, vertices, vertexCount, indices, 93))
     {
-        SDL_Log("SDL_RenderGeometry() failed: %s\n", SDL_GetError());
+        SDL_Log("SDL_RenderGeometry() failed: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 
@@ -182,8 +192,17 @@ SDL_AppResult SDL_AppIterate(void* appState)
     char* fpsText; SDL_asprintf(&fpsText, "FPS: %.1lf", fps);
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderDebugText(renderer, 10, 10, fpsText);
+    // SDL_RenderDebugText(renderer, 10, 10, fpsText);
+    TTF_Text* text = TTF_CreateText(textEngine, font, fpsText, strlen(fpsText));
+    if (!text)
+    {
+        SDL_Log("TTF_CreateText() failed: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    TTF_DrawRendererText(text, 10, 10);
     SDL_free(fpsText);
+    TTF_DestroyText(text);
 
     SDL_RenderPresent(renderer);
 

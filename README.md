@@ -26,14 +26,15 @@
 - Cmake and Ninja, with scripts for fast dev iteration
 - Full GPU diagnostics: Video Drivers, Renderer Drivers, VSync status
 - VSync
-- FPS
+- FPS calculating
+- Shape rendering: Rect, Polygon, Circle (use polygon)
+- Text rendering: embedded debug text engine, SDL3_ttf
 - Platforms: 
     - Windows
     - MacOS (executable only, no bundle version yet)
     - Linux (X11, Wayland but doesnot tested)
     - Web (WebAssembly with Emscripten)
     - iOS (only bundle with Info.plist, no platform specified platform source code needed)
-- Shape rendering: Rect, Polygon, Circle (use polygon)
 - Scripts for independant from Cmake building progress:
     - Build SDL3 and modules (required once time only)
     - Use scripts and clang to build executable
@@ -43,7 +44,6 @@
 
 ## Todos
 - Cmake with Clang
-- Text rendering
 - Image rendering
 - Simple framework
 - Simple immediate mode GUI for debugging, testing
