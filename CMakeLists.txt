@@ -42,3 +42,8 @@ add_executable(FunWithSDL3 src/main.c)
 target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static)
 # target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static)
 install(FILES $<TARGET_RUNTIME_DLLS:FunWithSDL3> TYPE BIN)
+
+if (EMSCRIPTEN)
+    message("Building with Emscripten!")
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+endif()

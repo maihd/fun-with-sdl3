@@ -4,10 +4,10 @@
 - Learning SDL3
 - Learning CMake, Ninja for building C projects in manner of cross-platforms
 - More C practices, some features from C++ use required, explore Mai C Style: https://github.com/maihd/maicstyle
-- Make profit: integrate to Mai Lite Editor
+- Make profits: integrate to Mai Lite Editor (so, most examples focus on features that help code editor better)
 
 ## Modules, APIs need to explore
-- Renderer 2D
+- Renderer 2D (Prefer but not force low power GPU accelerated)
 - Audio
 - TTF
 - Image
@@ -26,7 +26,7 @@
 - Full GPU diagnostics: Video Drivers, Renderer Drivers, VSync status
 - VSync
 - FPS
-- Platforms: Windows, MacOS, Linux (X11, Wayland but doesnot tested)
+- Platforms: Windows, MacOS, Linux (X11, Wayland but doesnot tested), Web (WebAssembly with Emscripten)
 
 ## Todos
 - Cmake with Clang
@@ -34,7 +34,8 @@
 - Text rendering
 - Image rendering
 - Simple framework
+- Simple immediate mode GUI for debugging, testing
 - Hot reloading
 - Android
 - iOS: build succeed, but no Info.plist to install on the phone
-- Wasm
+- Advanced: Vietnamese typing

@@ -50,8 +50,10 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
+#ifndef EMSCRIPTEN
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "gpu");
     SDL_SetHint(SDL_HINT_RENDER_GPU_LOW_POWER, "1");
+#endif
 
     renderer = SDL_CreateRenderer(window, NULL);
     if (!renderer)
@@ -124,6 +126,8 @@ SDL_AppResult SDL_AppEvent(void* appState, SDL_Event* event)
 
 SDL_AppResult SDL_AppIterate(void* appState)
 {
+    double time = ((double)SDL_GetTicksNS() / 1000000000.0);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
@@ -135,7 +139,7 @@ SDL_AppResult SDL_AppIterate(void* appState)
     SDL_RenderRect(renderer, &rect);
 
     // Render a simple filled rect
-    SDL_FRect rect2 = { 272, 300, 100, 100 };
+    SDL_FRect rect2 = { (float)(sin(time) * 272), 300, 100, 100 };
     SDL_RenderFillRect(renderer, &rect2);
 
     // Render FPS text
@@ -148,7 +152,6 @@ SDL_AppResult SDL_AppIterate(void* appState)
     SDL_RenderPresent(renderer);
 
     // Calculate fps
-    double time = ((double)SDL_GetTicksNS() / 1000000000.0);
     deltaTime = time - lastTime;
     lastTime = time;
 
