@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.18)
 project(FunWithSDL3)
 
+set(PRODUCT_NAME "FunWithSDL3")
+set(APP_VERSION "1.0.0")
+set(PRODUCT_PACKAGE "com.maihd.funwithsdl3")
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
@@ -38,12 +42,18 @@ FetchContent_MakeAvailable(SDL3)
 # find_package(SDL3 REQUIRED)
 
 add_executable(FunWithSDL3 src/main.c)
-
 target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static)
-# target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf-static)
-install(FILES $<TARGET_RUNTIME_DLLS:FunWithSDL3> TYPE BIN)
 
-if (EMSCRIPTEN)
+if (IOS)
+    message("Building with Emscripten!")
+    # set(CMAKE_OSX_SYSROOT iphoneos)
+    # set(CMAKE_OSX_ARCHITECTURES arm64)
+
+    set_target_properties(FunWithSDL3 PROPERTIES 
+        MACOSX_BUNDLE               TRUE
+        MACOSX_BUNDLE_INFO_PLIST    "${CMAKE_CURRENT_SOURCE_DIR}/proj.ios/Info.plist.in"
+    )
+elseif (EMSCRIPTEN)
     message("Building with Emscripten!")
     set(CMAKE_EXECUTABLE_SUFFIX ".html")
 endif()

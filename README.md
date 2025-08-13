@@ -23,10 +23,16 @@
     - Only Vulkan support Adaptive VSync
 
 ## Tasks Done
+- Cmake and Ninja, with scripts for fast dev iteration
 - Full GPU diagnostics: Video Drivers, Renderer Drivers, VSync status
 - VSync
 - FPS
-- Platforms: Windows, MacOS, Linux (X11, Wayland but doesnot tested), Web (WebAssembly with Emscripten)
+- Platforms: 
+    - Windows
+    - MacOS (executable only, no bundle version yet)
+    - Linux (X11, Wayland but doesnot tested)
+    - Web (WebAssembly with Emscripten)
+    - iOS (only bundle with Info.plist, no platform specified platform source code needed)
 - Shape rendering: Rect, Polygon, Circle (use polygon)
 
 ## Todos
@@ -34,6 +40,7 @@
     - Build SDL3 and modules (required once time only)
     - Use scripts and clang to build executable
     - Why? because im stucking on build SDL_ttf and SDL_image with Cmake/FetchContent
+    - It will help hot reload faster and easier
 - Cmake with Clang
 - Text rendering
 - Image rendering
