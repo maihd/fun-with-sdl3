@@ -30,6 +30,10 @@
 - Shape rendering: Rect, Polygon, Circle (use polygon)
 
 ## Todos
+- Scripts for independant from Cmake building progress:
+    - Build SDL3 and modules (required once time only)
+    - Use scripts and clang to build executable
+    - Why? because im stucking on build SDL_ttf and SDL_image with Cmake/FetchContent
 - Cmake with Clang
 - Text rendering
 - Image rendering
