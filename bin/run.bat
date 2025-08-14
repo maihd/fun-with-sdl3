@@ -10,7 +10,7 @@ if not exist build (
 
 pushd build
 
-cmake .. -GNinja
+cmake .. -G "Visual Studio 17 2022"
 
 cmake --build .
 
@@ -20,7 +20,7 @@ if %ErrorLevel% == 0 (
     echo Running....
     echo ==================================================================================================
 
-    FunWithSDL3.exe
+    Debug\FunWithSDL3.exe
 ) else (
     echo Build failed. Please check build errors above!
 )
