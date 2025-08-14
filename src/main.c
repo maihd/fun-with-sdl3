@@ -29,11 +29,11 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
     SDL_Log("Fun with SDL3");
 
-    if (!SDL_Init(SDL_INIT_VIDEO))
-    {
-        SDL_Log("SDL_Init() failed: %s\n", SDL_GetError());
-        return SDL_APP_FAILURE;
-    }
+    // if (!SDL_Init(SDL_INIT_VIDEO))
+    // {
+    //     SDL_Log("SDL_Init() failed: %s\n", SDL_GetError());
+    //     return SDL_APP_FAILURE;
+    // }
 
     for (int i = 0, n = SDL_GetNumVideoDrivers(); i < n; i++)
     {
@@ -111,7 +111,7 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
-    // if (!IMG_Init())
+    // if (!IMG_Init(IMG_INIT_PNG))
     // {
     //     SDL_Log("IMG_Init() failed: %s", SDL_GetError());
     //     return SDL_APP_FAILURE;
@@ -123,6 +123,8 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         SDL_Log("IMG_LoadTexture() failed: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+
+    SDL_Log("IMG_LoadTexture width = %d, height = %d", textureSdlLogo->w, textureSdlLogo->h);
 
     return SDL_APP_CONTINUE;
 }
