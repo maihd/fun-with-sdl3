@@ -25,12 +25,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 # Use vendored libs
 set(SDLTTF_VENDORED ON)
+set(SDLIMAGE_VENDORED ON)
 
-# This assumes the SDL source is available in vendored/SDL
+# This assumes the SDL source is available in libs/SDL3
 add_subdirectory(libs/SDL3 EXCLUDE_FROM_ALL)
 
-# This assumes the SDL_ttf source is available in vendored/SDL_ttf
+# This assumes the SDL_ttf source is available in libs/SDL3_ttf
 add_subdirectory(libs/SDL3_ttf EXCLUDE_FROM_ALL)
+
+# This assumes the SDL_image source is available in libs/SDL3_image
+add_subdirectory(libs/SDL3_image EXCLUDE_FROM_ALL)
 
 # include(FetchContent)
 
@@ -56,7 +60,7 @@ add_subdirectory(libs/SDL3_ttf EXCLUDE_FROM_ALL)
 # find_package(SDL3 REQUIRED)
 
 add_executable(FunWithSDL3 src/main.c)
-target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf)
+target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image)
 
 if (IOS)
     message("Building with Emscripten!")

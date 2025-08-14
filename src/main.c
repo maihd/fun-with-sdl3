@@ -6,6 +6,7 @@
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"
 #include "SDL3_ttf/SDL_ttf.h"
+#include "SDL3_image/SDL_image.h"
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
@@ -14,6 +15,8 @@ static TTF_Font* font;
 static SDL_Texture* fontTexture;
 
 static TTF_TextEngine* textEngine;
+
+static SDL_Texture* textureSdlLogo;
 
 static double fps;
 static double lastTime;
@@ -108,6 +111,19 @@ SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
+    // if (!IMG_Init())
+    // {
+    //     SDL_Log("IMG_Init() failed: %s", SDL_GetError());
+    //     return SDL_APP_FAILURE;
+    // }
+    
+    textureSdlLogo = IMG_LoadTexture(renderer, "../assets/sdl-logo.png");
+    if (!textureSdlLogo)
+    {
+        SDL_Log("IMG_LoadTexture() failed: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
     return SDL_APP_CONTINUE;
 }
 
@@ -185,6 +201,15 @@ SDL_AppResult SDL_AppIterate(void* appState)
     if (!SDL_RenderGeometry(renderer, NULL, vertices, vertexCount, indices, 93))
     {
         SDL_Log("SDL_RenderGeometry() failed: %s", SDL_GetError());
+        return SDL_APP_FAILURE;
+    }
+
+    // Render a image
+    SDL_FRect srcRect = { 0, 0, textureSdlLogo->w, textureSdlLogo->h };
+    SDL_FRect dstRect = { 300, 100, textureSdlLogo->w * 0.5f, textureSdlLogo->h * 0.5f };
+    if (!SDL_RenderTexture(renderer, textureSdlLogo, &srcRect, &dstRect))
+    {
+        SDL_Log("SDL_RenderTexture() failed: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
 

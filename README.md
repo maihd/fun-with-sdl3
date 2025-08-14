@@ -14,6 +14,12 @@
 - Storage
 * SDL3 GPU is in other project: https://github.com/maihd/graphics-programming 
 
+## Build notes
+- C compiler
+- Cmake, Ninja
+- Nasm & Perl for building SDL_image
+- Use vendoring build technique to build SDL3 satellite modules
+
 ## Notes
 - Renderer 2D: 
     - Use "gpu" driver name, do not use default when you need SDL_GPU backend
@@ -29,6 +35,7 @@
 - FPS calculating
 - Shape rendering: Rect, Polygon, Circle (use polygon)
 - Text rendering: embedded debug text engine, SDL3_ttf
+- Image rendering: load image to texture, render with SDL_RenderTexture
 - Platforms: 
     - Windows
     - MacOS (executable only, no bundle version yet)
@@ -44,12 +51,10 @@
 
 ## Todos
 - Cmake with Clang
-- Image rendering
 - Simple framework
 - Simple immediate mode GUI for debugging, testing
 - Hot reloading
 - Android
-- iOS: build succeed, but no Info.plist to install on the phone
 - Advanced: Vietnamese typing
 - Advanced: Avoid create text when dynamic rendering text, using glyph to get texcoords
 
