@@ -59,8 +59,13 @@ add_subdirectory(libs/SDL3_image EXCLUDE_FROM_ALL)
 
 # find_package(SDL3 REQUIRED)
 
+if (ANDROID)
+add_executable(FunWithSDL3 src/main.c)
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image android EGL GLESv2)
+else()
 add_executable(FunWithSDL3 src/main.c)
 target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image)
+endif()
 
 if (IOS)
     message("Building with Emscripten!")
