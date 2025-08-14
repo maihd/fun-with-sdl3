@@ -51,7 +51,7 @@
 
 ## Todos
 - Cmake with Clang
-- Simple framework
+- Simple framework, with coding style, mimicking Raylib API
 - Simple immediate mode GUI for debugging, testing
 - Hot reloading
 - Android
