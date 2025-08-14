@@ -27,6 +27,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(SDLTTF_VENDORED ON)
 set(SDLIMAGE_VENDORED ON)
 
+set(SDLIMAGE_AVIF OFF)	# disable formats we don't use to make the build faster and smaller.
+
 # This assumes the SDL source is available in libs/SDL3
 add_subdirectory(libs/SDL3 EXCLUDE_FROM_ALL)
 

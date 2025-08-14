@@ -57,6 +57,7 @@
 - Android
 - Advanced: Vietnamese typing
 - Advanced: Avoid create text when dynamic rendering text, using glyph to get texcoords
+- Advanced: Web Assets and Web Threads
 
 ## Notes on versions
 Because SDL3 is still new, and I am still learning to use its. So I decised to use latest version from main branch, fetch very latest commit from the repos. This approach is like using nightly build from other modern techs.
