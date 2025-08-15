@@ -16,6 +16,20 @@ typedef struct Texture
     void*   internal_data;
 } Texture;
 
+typedef enum TraceLogLevel
+{
+    LOG_ALL,
+    LOG_TRACE,
+    LOG_DEBUG,
+    LOG_INFO,
+    LOG_WARN,
+    LOG_ERROR,
+    LOG_FATAL,
+    LOG_NONE
+} TraceLogLevel;
+
+void        TraceLog(TraceLogLevel level, const char* text, ...);
+
 void        InitWindow(int32_t w, int32_t h, const char* title);
 void        CloseWindow(void);
 

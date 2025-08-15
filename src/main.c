@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define SDL_MAIN_USE_CALLBACKS
+// #define SDL_MAIN_USE_CALLBACKS
 #include "SDL3/SDL.h"
-#include "SDL3/SDL_main.h"
+// #include "SDL3/SDL_main.h"
 #include "SDL3_ttf/SDL_ttf.h"
 #include "SDL3_image/SDL_image.h"
+
+#include "SDL3_Framework.h"
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
@@ -24,6 +26,23 @@ static double deltaTime;
 
 static double fpsTimer      = 0.0;
 static double fpsInvertal   = 0.1;
+
+int main(void)
+{
+    InitWindow(960, 600, "Fun With SDL3");
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        {
+            ClearBackground((Color){ 50, 50, 50, 255 });
+        }
+        EndDrawing();
+    }
+
+    CloseWindow();
+    return 0;
+}
 
 SDL_AppResult SDL_AppInit(void** appState, int argc, char* argv[])
 {
