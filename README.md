@@ -50,6 +50,7 @@
     - They called its vendoring build
 
 ## Todos
+- SDL3 net
 - Cmake with Clang
 - Simple framework, with coding style, mimicking Raylib API
 - Simple immediate mode GUI for debugging, testing

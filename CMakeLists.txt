@@ -38,29 +38,6 @@ add_subdirectory(libs/SDL3_ttf EXCLUDE_FROM_ALL)
 # This assumes the SDL_image source is available in libs/SDL3_image
 add_subdirectory(libs/SDL3_image EXCLUDE_FROM_ALL)
 
-# include(FetchContent)
-
-# FetchContent_Declare(
-#     SDL3
-#     GIT_REPOSITORY  "https://github.com/libsdl-org/SDL.git"
-#     GIT_TAG         96292a5b464258a2b926e0a3d72f8b98c2a81aa6 # release-3.2.20
-#     EXCLUDE_FROM_ALL
-# )
-# FetchContent_MakeAvailable(SDL3)
-
-# FetchContent_Declare(
-#     SDL3_ttf
-#     GIT_REPOSITORY  "https://github.com/libsdl-org/SDL_ttf.git"
-#     GIT_TAG         "main"
-# )
-# FetchContent_MakeAvailable(SDL3_ttf)
-# FetchContent_GetProperties(SDL3_ttf)
-# set(FETCHCONTENT_QUIET NO)
-# FetchContent_Populate(SDL3_ttf)
-# add_subdirectory(${SDL3_ttf_SOURCE_DIR} ${SDL3_ttf_BINARY_DIR})
-
-# find_package(SDL3 REQUIRED)
-
 if (ANDROID)
 add_executable(FunWithSDL3 src/main.c)
 target_link_libraries(${EXECUTABLE_NAME} PUBLIC SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image android EGL GLESv2)
