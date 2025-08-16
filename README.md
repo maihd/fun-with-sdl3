@@ -19,6 +19,7 @@
 - Cmake, Ninja
 - Nasm & Perl for building SDL_image
 - Use vendoring build technique to build SDL3 satellite modules
+- cimgui need regenerate bindings, add include dirs, add impl .cpp files to your CMakeLists.txt 
 
 ## Notes
 - Renderer 2D: 
@@ -48,9 +49,12 @@
     - Why? because im stucking on build SDL_ttf and SDL_image with Cmake/FetchContent
     - It will help hot reload faster and easier
     - They called its vendoring build
+- Dear ImGui with cimgui, use SDL3 Renderer to render window
 
 ## Todos
 - Cmake with Clang
+- Use Dear ImGui for diagnostics
+- Borderless Window, NoTitleBar
 - Simple framework, with coding style, mimicking Raylib API
 - Simple immediate mode GUI for debugging, testing
 - Hot reloading

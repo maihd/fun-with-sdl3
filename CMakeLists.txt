@@ -25,9 +25,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 # Use vendored libs
 set(SDLTTF_VENDORED ON)
+set(SDLTTF_HARFBUZZ OFF)
+
 set(SDLIMAGE_VENDORED ON)
 
 set(SDLIMAGE_AVIF OFF)	# disable formats we don't use to make the build faster and smaller.
+
+set(IMGUI_STATIC ON)
 
 # This assumes the SDL source is available in libs/SDL3
 add_subdirectory(libs/SDL3 EXCLUDE_FROM_ALL)
@@ -37,6 +41,9 @@ add_subdirectory(libs/SDL3_ttf EXCLUDE_FROM_ALL)
 
 # This assumes the SDL_image source is available in libs/SDL3_image
 add_subdirectory(libs/SDL3_image EXCLUDE_FROM_ALL)
+
+# This assumes the cimgui source is available in libs/SDL3_image
+add_subdirectory(libs/cimgui EXCLUDE_FROM_ALL)
 
 # include(FetchContent)
 
@@ -61,12 +68,29 @@ add_subdirectory(libs/SDL3_image EXCLUDE_FROM_ALL)
 
 # find_package(SDL3 REQUIRED)
 
+add_definitions(
+    -DCIMGUI_USE_SDL3
+    -DCIMGUI_USE_SDLRENDERER3
+)
+
+file(GLOB SOURCES
+    src/main.c 
+    src/SDL3_Framework.c
+
+    libs/cimgui/cimgui_impl.cpp
+    libs/cimgui/imgui/backends/imgui_impl_sdl3.cpp
+    libs/cimgui/imgui/backends/imgui_impl_sdlrenderer3.cpp
+)
+
+
+target_include_directories(cimgui PUBLIC libs/cimgui/imgui/backends)
+
 if (ANDROID)
-add_executable(FunWithSDL3 src/main.c src/SDL3_Framework.c)
-target_link_libraries(${EXECUTABLE_NAME} PUBLIC SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image android EGL GLESv2)
+add_executable(FunWithSDL3 ${SOURCES})
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC SDL3::SDL3 SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image android EGL GLESv2 cimgui)
 else()
-add_executable(FunWithSDL3 src/main.c src/SDL3_Framework.c)
-target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image)
+add_executable(FunWithSDL3 ${SOURCES})
+target_link_libraries(FunWithSDL3 PRIVATE SDL3::SDL3-static SDL3_ttf::SDL3_ttf SDL3_image::SDL3_image cimgui)
 endif()
 
 if (IOS)

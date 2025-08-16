@@ -10,7 +10,7 @@ if not exist build (
 
 pushd build
 
-cmake .. -G "Visual Studio 17 2022"
+cmake .. -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX="."
 
 cmake --build .
 

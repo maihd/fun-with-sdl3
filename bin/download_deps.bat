@@ -11,3 +11,7 @@ if not exist libs\SDL3_ttf (
 if not exist libs\SDL3_image (
     git clone https://github.com/libsdl-org/SDL_image libs/SDL3_image --recursive --depth=1
 )
+
+if not exist libs\cimgui (
+    git clone https://github.com/cimgui/cimgui libs/cimgui --recursive --depth=1
+)

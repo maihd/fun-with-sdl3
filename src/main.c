@@ -33,6 +33,8 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        OpenDebugWindow();
+
         BeginDrawing();
         {
             ClearBackground((Color){ 50, 50, 50, 255 });

@@ -9,6 +9,10 @@
 #include "SDL3_ttf/SDL_ttf.h"
 #include "SDL3_image/SDL_image.h"
 
+#define CIMGUI_DEFINE_ENUMS_AND_STRUCTS
+#include "cimgui.h"
+#include "cimgui_impl.h"
+
 typedef struct AppState
 {
     SDL_Window*     window;
@@ -19,6 +23,9 @@ typedef struct AppState
     TTF_TextEngine* text_engine;
     TTF_Font*       title_font;
     TTF_Text        title_text;
+
+    // ImGui
+    ImGuiContext*   imgui_context;
 
     // Timer
 
@@ -66,8 +73,9 @@ void InitWindow(int32_t w, int32_t h, const char* title)
         TraceLog(LOG_FATAL, "SDL_Init() failed: %s", SDL_GetError());
     }
 
+    float main_scale = SDL_GetDisplayContentScale(SDL_GetPrimaryDisplay());
     SDL_WindowFlags window_flags = SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN | SDL_WINDOW_HIGH_PIXEL_DENSITY;
-    g_app_state.window = SDL_CreateWindow(title, w, h, window_flags);
+    g_app_state.window = SDL_CreateWindow(title, w * main_scale, h * main_scale, window_flags);
     if (!g_app_state.window)
     {
         TraceLog(LOG_FATAL, "SDL_CreateWindow() failed: %s", SDL_GetError());     
@@ -134,13 +142,35 @@ void InitWindow(int32_t w, int32_t h, const char* title)
         TraceLog(LOG_FATAL, "TTF_Init() failed: %s", SDL_GetError());
     }
 
+    // ImGui for debugging
+    g_app_state.imgui_context = igCreateContext(NULL);
+    igSetCurrentContext(g_app_state.imgui_context);
+
+    ImGuiIO* io = igGetIO_ContextPtr(g_app_state.imgui_context);
+    io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io->ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+
+    ImGuiStyle* style = igGetStyle();
+    igStyleColorsDark(style);
+    ImGuiStyle_ScaleAllSizes(style, main_scale);
+    style->FontScaleDpi = main_scale;
+
+    ImGui_ImplSDL3_InitForSDLRenderer(g_app_state.window, g_app_state.renderer);
+    ImGui_ImplSDLRenderer3_Init(g_app_state.renderer);
+
     // Start the timer
     g_app_state.last_app_ticks = SDL_GetTicksNS();
-    g_app_state.fps_interval = 1.0f;
+    g_app_state.fps_interval = 0.1f;
 }
 
 void CloseWindow(void)
 {
+    ImGui_ImplSDLRenderer3_Shutdown();
+    ImGui_ImplSDL3_Shutdown();
+
+    igDestroyContext(g_app_state.imgui_context);
+
     SDL_DestroyRenderer(g_app_state.renderer);
     SDL_DestroyWindow(g_app_state.window);
     SDL_Quit();
@@ -169,6 +199,7 @@ bool WindowShouldClose(void)
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
+        ImGui_ImplSDL3_ProcessEvent(&event);
         if (event.type == SDL_EVENT_QUIT)
         {
             return true;
@@ -180,11 +211,16 @@ bool WindowShouldClose(void)
 
 void BeginDrawing(void)
 {
-
+    SDL_FlushRenderer(g_app_state.renderer);
 }
 
 void EndDrawing(void)
 {
+    ImGuiIO* io = igGetIO_Nil();
+
+    SDL_SetRenderScale(g_app_state.renderer, io->DisplayFramebufferScale.x, io->DisplayFramebufferScale.y);
+    ImGui_ImplSDLRenderer3_RenderDrawData(igGetDrawData(), g_app_state.renderer);
+
     char* fps_text; SDL_asprintf(&fps_text, "FPS: %.0lf", g_app_state.average_fps);
     SDL_SetRenderDrawColor(g_app_state.renderer, 255, 255, 255, 255);
     SDL_RenderDebugText(g_app_state.renderer, 10, 10, fps_text);
@@ -197,6 +233,19 @@ void ClearBackground(Color color)
 {
     SDL_SetRenderDrawColor(g_app_state.renderer, color.r, color.g, color.b, color.a);
     SDL_RenderClear(g_app_state.renderer);
+}
+
+void OpenDebugWindow()
+{
+    ImGui_ImplSDLRenderer3_NewFrame();
+    ImGui_ImplSDL3_NewFrame();
+
+    igNewFrame();
+    {
+        static bool show = true;
+        igShowDemoWindow(&show);
+    }
+    igRender();
 }
 
 //! EOF

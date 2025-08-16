@@ -54,4 +54,6 @@ void        DrawRectLines(float x, float y, float w, float h, Color color);
 void        DrawCircle(float x, float y, float r, Color color);
 void        DrawCircleLines(float x, float y, float r, Color color);
 
+void        OpenDebugWindow();
+
 //! EOF
